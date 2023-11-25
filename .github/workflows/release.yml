@@ -32,8 +32,11 @@ jobs:
         with:
           command: fmt
           args: --all -- --check
-      - name: tar
-        run: tar cvf simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz -C ./build/release/ simple-rust-cli*
+      - name: binaries->tarball
+        run: |
+          cd ./target/release/
+          tar cvf simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz simple-rust-cli*
+          mv simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz ../../
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
