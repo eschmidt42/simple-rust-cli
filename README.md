@@ -23,7 +23,16 @@ If this worked you are good to go to develop locally.
 
 The `release.yml` produces tarballs of the rust code for `simple-rust-cli` compiled to binaries and tries to store them in a manually created release. In order to do that you have to make sure that in your repo settings under `Workflow permission` "read and write permission" is given as well as "Allow GitHub Actions to create and approve pull request" is ticked.
 
-## Note
+## usage of binary
+
+The creation of a release also generates tarballs for you selection of of operating system and rust. So to use your cli tool you can:
+
+1. download the tarball for you deployment system, e.g. ubuntu 20.04
+2. extract your tarball using `tar -xvf` (places a binary and a linked file into the same directory as your tarball)
+3. place the binary and linked file somewhere for usage, e.g. `/opt` or `~/bin`
+4. run
+
+## note for development
 
 You'll certainly want to give your cli tool a different name. To do this you'll have to replace `simple-rust-cli` in:
 * `Cargo.toml`
