@@ -10,19 +10,31 @@ env:
       
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-20.04]
+        rust: [stable, beta, nightly]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Build development
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose
-      - name: Build release
-        run: cargo build --verbose --release --target-dir ./build
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: check
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+      - run: rustup component add rustfmt
+      - uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
       - name: tar
-        run: tar cvf simple-rust-cli.tar.gz ./build/release/simple-rust-cli* 
+        run: tar cvf simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz -C ./build/release/ simple-rust-cli*
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: simple-rust-cli.tar.gz
+          files: simple-rust-cli-${{ matrix.os }}-${{ matrix.rust }}.tar.gz
