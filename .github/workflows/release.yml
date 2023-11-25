@@ -25,7 +25,8 @@ jobs:
           command: check
       - uses: actions-rs/cargo@v1
         with:
-          command: build --verbose --release --target-dir ./build
+          command: build 
+          args: --verbose --release --target-dir ./build
       - run: rustup component add rustfmt
       - uses: actions-rs/cargo@v1
         with:
