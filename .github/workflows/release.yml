@@ -14,6 +14,9 @@ jobs:
         os: [ubuntu-latest, ubuntu-20.04]
         rust: [stable, beta, nightly]
     runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} with ${{ matrix.rust }} rust
+    env:
+      tar_name: simple-rust-cli-release-${{ github.event.release.name }}-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
@@ -35,9 +38,9 @@ jobs:
       - name: binaries->tarball
         run: |
           cd ./target/release/
-          tar cvf simple-rust-cli-${{ github.event.release.name }}-${{ matrix.os }}-${{ matrix.rust }}.tar.gz simple-rust-cli*
-          mv simple-rust-cli-${{ github.event.release.name }}-${{ matrix.os }}-${{ matrix.rust }}.tar.gz ../../
+          tar cvf $tar_name simple-rust-cli*
+          mv $tar_name ../../
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: simple-rust-cli-${{ github.event.release.name }}-${{ matrix.os }}-${{ matrix.rust }}.tar.gz
+          files: $tar_name
