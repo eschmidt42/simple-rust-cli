@@ -28,10 +28,6 @@ jobs:
       name: Cargo check
       with:
         command: check
-    - uses: actions-rs/cargo@v1
-      name: Cargo build
-      with:
-        command: build
     - run: rustup component add rustfmt
     - uses: actions-rs/cargo@v1
       name: Cargo fmt
@@ -44,10 +40,16 @@ jobs:
         command: test
         args: --verbose
     - uses: actions-rs/cargo@v1
+      name: Cargo build development
+      with:
+        command: build
+    - uses: actions-rs/cargo@v1
       name: Cargo build release
       with:
         command: build 
-        args: --verbose --release --target-dir ./build
+        args: --verbose --release
+    - name: tar
+      run: tar cvf simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz -C ./target/release/ simple-rust-cli*        
 
     # - name: Build development
     #   run: cargo build --verbose
