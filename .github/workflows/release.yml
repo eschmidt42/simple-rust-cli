@@ -35,8 +35,8 @@ jobs:
       - name: binaries->tarball
         run: |
           cd ./target/release/
-          tar cvf simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz simple-rust-cli*
-          mv simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz ../../
+          tar cvf simple-rust-cli-${{ github.event.release.name }}-${{ matrix.os }}-${{ matrix.rust }}.tar.gz simple-rust-cli*
+          mv simple-rust-cli-${{ github.event.release.name }}-${{ matrix.os }}-${{ matrix.rust }}.tar.gz ../../
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
