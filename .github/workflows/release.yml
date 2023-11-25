@@ -1,9 +1,8 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  release:
+    types: [published]
 
 env:
     CARGO_TERM_COLOR: always
@@ -37,4 +36,4 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: simple-rust-cli-${{ matrix.os }}-${{ matrix.rust }}.tar.gz
+          files: simple-rust-cli-${{ github.event.release.name }}-${{ matrix.os }}-${{ matrix.rust }}.tar.gz
