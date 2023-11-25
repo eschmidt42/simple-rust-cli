@@ -40,6 +40,8 @@ jobs:
           cd ./target/release/
           tar cvf $tar_name simple-rust-cli*
           mv $tar_name ../../
+          cd ../../
+      - run: ls -la
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
