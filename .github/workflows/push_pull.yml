@@ -49,7 +49,10 @@ jobs:
         command: build 
         args: --verbose --release
     - name: tar
-      run: tar cvf simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz -C ./target/release/ simple-rust-cli*        
+      run: |
+        ls -alh ./target/
+        ls -alh ./target/release/
+        tar cvf simple-rust-cli-os-${{ matrix.os }}-rust-${{ matrix.rust }}.tar.gz -C ./target/release/ simple-rust-cli*        
 
     # - name: Build development
     #   run: cargo build --verbose
